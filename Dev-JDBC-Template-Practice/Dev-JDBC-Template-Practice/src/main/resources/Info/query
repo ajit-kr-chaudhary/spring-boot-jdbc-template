@@ -1,0 +1,47 @@
+-----------------------------------------SCHEMA-----------------------------------------
+CREATE SCHEMA IF NOT EXISTS cust_db_schema
+----------------------------------- customer table -------------------------------------
+CREATE TABLE IF NOT EXISTS customer (
+  cust_id BIGSERIAL NOT NULL PRIMARY KEY, 
+  cust_name CHARACTER VARYING (64), 
+  cust_phone CHARACTER VARYING (32)
+);
+------------------------------------ address table --------------------------------------
+CREATE TABLE IF NOT EXISTS address (
+	adrs_id BIGINT NOT NULL PRIMARY KEY,
+	cust_id BIGINT NOT NULL,
+	adrs_city CHARACTER VARYING (32),
+	CONSTRAINT FK_customer_address FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+);
+-------------------------------------- card table ---------------------------------------
+CREATE TABLE IF NOT EXISTS card (
+	card_id BIGINT NOT NULL PRIMARY KEY,
+	cust_id BIGINT NOT NULL,
+	card_country CHARACTER VARYING (64),
+	card_scheme CHARACTER VARYING (64),
+	card_type CHARACTER VARYING (64),
+	card_bank_name CHARACTER VARYING (64),
+	card_number CHARACTER VARYING (64),
+	CONSTRAINT FK_customer_card FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+);
+------------------------------------------------------------------------------------------
+CREATE SEQUENCE customer_id_seq 
+        INCREMENT BY 1 
+        MINVALUE 1 
+        MAXVALUE 99999999 
+        START WITH 1 
+        NO CYCLE;
+        
+CREATE SEQUENCE address_id_seq 
+        INCREMENT BY 1 
+        MINVALUE 1 
+        MAXVALUE 99999999 
+        START WITH 1 
+        NO CYCLE;
+
+ CREATE SEQUENCE card_id_seq 
+        INCREMENT BY 1 
+        MINVALUE 1 
+        MAXVALUE 99999999 
+        START WITH 1 
+        NO CYCLE;
